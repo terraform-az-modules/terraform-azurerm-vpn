@@ -15,20 +15,13 @@ module "labels" {
 }
 
 ##-----------------------------------------------------------------------------
-## data block called for resource group.
-##-----------------------------------------------------------------------------
-data "azurerm_resource_group" "rg" {
-  name = var.resource_group_name
-}
-
-##-----------------------------------------------------------------------------
 ## Public IP for Virtual Network Gateway
 ##-----------------------------------------------------------------------------
 resource "azurerm_public_ip" "pip_gw" {
   count                = var.enable ? 1 : 0
   name                 = var.resource_position_prefix ? format("%s-gw-pip", local.name) : format("gw-pip-%s", local.name)
-  location             = data.azurerm_resource_group.rg.location
-  resource_group_name  = data.azurerm_resource_group.rg.name
+  location             = var.location
+  resource_group_name  = var.resource_group_name
   allocation_method    = var.public_ip_allocation_method
   sku                  = var.public_ip_sku
   ddos_protection_mode = "VirtualNetworkInherited"
@@ -41,8 +34,8 @@ resource "azurerm_public_ip" "pip_gw" {
 resource "azurerm_virtual_network_gateway" "vpngw" {
   count               = var.enable && (var.vpn_ad || var.sts_vpn) ? 1 : 0
   name                = var.resource_position_prefix ? format("%s-vgw", local.name) : format("vgw-%s", local.name)
-  resource_group_name = data.azurerm_resource_group.rg.name
-  location            = data.azurerm_resource_group.rg.location
+  location            = var.location
+  resource_group_name = var.resource_group_name
   type                = var.gateway_type
   vpn_type            = var.vpn_type
   sku                 = var.sku
@@ -91,8 +84,8 @@ resource "azurerm_virtual_network_gateway" "vpngw" {
 resource "azurerm_virtual_network_gateway" "vpngw2" {
   count               = var.enable && var.vpn_with_certificate ? 1 : 0
   name                = var.resource_position_prefix ? format("%s-vgw", local.name) : format("vgw-%s", local.name)
-  resource_group_name = data.azurerm_resource_group.rg.name
-  location            = data.azurerm_resource_group.rg.location
+  location            = var.location
+  resource_group_name = var.resource_group_name
   type                = var.gateway_type
   vpn_type            = var.vpn_type
   sku                 = var.sku
@@ -138,8 +131,8 @@ resource "azurerm_virtual_network_gateway" "vpngw2" {
 resource "azurerm_local_network_gateway" "localgw" {
   count               = var.enable && var.local_networks != null ? length(var.local_networks) : 0
   name                = "localgw-${var.local_networks[count.index].local_gw_name}"
-  resource_group_name = data.azurerm_resource_group.rg.name
-  location            = data.azurerm_resource_group.rg.location
+  location            = var.location
+  resource_group_name = var.resource_group_name
   gateway_address     = var.local_networks[count.index].local_gateway_address
   address_space       = var.local_networks[count.index].local_address_space
 
@@ -160,8 +153,8 @@ resource "azurerm_local_network_gateway" "localgw" {
 resource "azurerm_virtual_network_gateway_connection" "az-hub-onprem" {
   count                           = var.enable && var.gateway_connection_type == "ExpressRoute" ? 1 : length(var.local_networks)
   name                            = var.gateway_connection_type == "ExpressRoute" ? "localgw-expressroute-connection" : "localgw-connection-${var.local_networks[count.index].local_gw_name}"
-  resource_group_name             = data.azurerm_resource_group.rg.name
-  location                        = data.azurerm_resource_group.rg.location
+  location                        = var.location
+  resource_group_name             = var.resource_group_name
   type                            = var.gateway_connection_type
   virtual_network_gateway_id      = var.sts_vpn == true ? azurerm_virtual_network_gateway.vpngw[0].id : azurerm_virtual_network_gateway.vpngw2[0].id
   local_network_gateway_id        = var.gateway_connection_type != "ExpressRoute" ? azurerm_local_network_gateway.localgw[count.index].id : null

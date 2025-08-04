@@ -78,7 +78,7 @@ variable "resource_group_name" {
 
 variable "location" {
   type        = string
-  default     = ""
+  default     = "canadacentral"
   description = "The location/region where the virtual network is created."
 }
 
