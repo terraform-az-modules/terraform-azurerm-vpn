@@ -19,7 +19,7 @@ module "labels" {
 ##-----------------------------------------------------------------------------
 resource "azurerm_public_ip" "pip_gw" {
   count                = var.enable ? 1 : 0
-  name                 = var.resource_position_prefix ? format("%s-gw-pip", local.name) : format("gw-pip-%s", local.name)
+  name                 = var.resource_position_prefix ?  format("pip-gw-%s", local.name) : format("%s-pip-gw", local.name)
   location             = var.location
   resource_group_name  = var.resource_group_name
   allocation_method    = var.public_ip_allocation_method
