@@ -272,3 +272,21 @@ variable "log_category_pip" {
   default     = ["DDoSProtectionNotifications"]
   description = "Categories of logs to be recorded in diagnostic setting for vgw."
 }
+
+variable "ip_configuration_name" {
+  type        = string
+  default     = "vnetGatewayConfig"
+  description = "Name for the ip_configuration"
+}
+
+variable "aa_ip_configuration_name" {
+  type        = string
+  default     = "vnetGatewayAAConfig"
+  description = "Name for the active-active ip_configuration"
+}
+
+variable "root_certificate_name" {
+  type        = string
+  default     = "point-to-site-root-certifciate"
+  description = "Name for the root certificate in VPN client configuration"
+}

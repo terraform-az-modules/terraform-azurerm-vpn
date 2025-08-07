@@ -44,7 +44,7 @@ resource "azurerm_virtual_network_gateway" "vpngw" {
   generation          = var.vpn_gw_generation
 
   ip_configuration {
-    name                          = "vnetGatewayConfig"
+    name                          = var.ip_configuration_name
     public_ip_address_id          = azurerm_public_ip.pip_gw[0].id
     private_ip_address_allocation = "Dynamic"
     subnet_id                     = var.subnet_id
@@ -53,7 +53,7 @@ resource "azurerm_virtual_network_gateway" "vpngw" {
   dynamic "ip_configuration" {
     for_each = var.enable_active_active ? [true] : []
     content {
-      name                          = "vnetGatewayAAConfig"
+      name                          = var.aa_ip_configuration_name
       public_ip_address_id          = azurerm_public_ip.pip_gw.id
       private_ip_address_allocation = "Dynamic"
       subnet_id                     = var.subnet_id
@@ -94,7 +94,7 @@ resource "azurerm_virtual_network_gateway" "vpngw2" {
   generation          = var.vpn_gw_generation
 
   ip_configuration {
-    name                          = "vnetGatewayConfig"
+    name                          = var.ip_configuration_name
     public_ip_address_id          = azurerm_public_ip.pip_gw[0].id
     private_ip_address_allocation = "Dynamic"
     subnet_id                     = var.subnet_id
@@ -103,7 +103,7 @@ resource "azurerm_virtual_network_gateway" "vpngw2" {
   dynamic "ip_configuration" {
     for_each = var.enable_active_active ? [true] : []
     content {
-      name                          = "vnetGatewayAAConfig"
+      name                          = var.aa_ip_configuration_name
       public_ip_address_id          = azurerm_public_ip.pip_gw.id
       private_ip_address_allocation = "Dynamic"
       subnet_id                     = var.subnet_id
@@ -116,7 +116,7 @@ resource "azurerm_virtual_network_gateway" "vpngw2" {
     content {
       address_space = [vpnc.value.address_space]
       root_certificate {
-        name             = "point-to-site-root-certifciate"
+        name             = var.root_certificate_name
         public_cert_data = vpnc.value.certificate
       }
       vpn_client_protocols = vpnc.value.vpn_client_protocols
@@ -184,7 +184,7 @@ resource "azurerm_virtual_network_gateway_connection" "az-hub-onprem" {
 ##-----------------------------------------------------------------------------
 resource "azurerm_monitor_diagnostic_setting" "main" {
   count                          = var.enable && var.diagnostic_setting_enable ? 1 : 0
-  name                           = var.resource_position_prefix ? format("%s-vgw-diagnostic-log", local.name) : format("vgw-diagnostic-log-%s", local.name)
+  name                           = var.resource_position_prefix ? format("vgw-diagnostic-log-%s", local.name) : format("%s-vgw-diagnostic-log", local.name)
   target_resource_id             = var.vpn_ad || var.sts_vpn ? azurerm_virtual_network_gateway.vpngw[0].id : azurerm_virtual_network_gateway.vpngw2[0].id
   storage_account_id             = var.storage_account_id
   eventhub_name                  = var.eventhub_name
@@ -215,7 +215,7 @@ resource "azurerm_monitor_diagnostic_setting" "main" {
 ##-----------------------------------------------------------------------------
 resource "azurerm_monitor_diagnostic_setting" "pip_gw" {
   count                          = var.enable && var.diagnostic_setting_enable ? 1 : 0
-  name                           = var.resource_position_prefix ? format("%s-gw-pip-diagnostic-log", local.name) : format("gw-pip-diagnostic-log-%s", local.name)
+  name                           = var.resource_position_prefix ? format("pip-gw-diagnostic-log-%s", local.name) : format("%s-pip-gw-diagnostic-log", local.name)
   target_resource_id             = azurerm_public_ip.pip_gw[0].id
   storage_account_id             = var.storage_account_id
   eventhub_name                  = var.eventhub_name
