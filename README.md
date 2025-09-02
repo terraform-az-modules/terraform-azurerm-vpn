@@ -121,7 +121,7 @@ This repository is part of the **terraform-az-modules** organization and provide
 | <a name="input_vpn_gw_generation"></a> [vpn\_gw\_generation](#input\_vpn\_gw\_generation) | The Generation of the Virtual Network gateway. Possible values include Generation1, Generation2 or None | `string` | `"Generation1"` | no |
 | <a name="input_vpn_gw_sku"></a> [vpn\_gw\_sku](#input\_vpn\_gw\_sku) | Configuration of the size and capacity of the virtual network gateway. Valid options are Basic, VpnGw3, VpnGw2, VpnGw3, VpnGw4,VpnGw5, VpnGw3AZ, VpnGw3, VpnGw3AZ,VpnGw4AZ and VpnGw5AZ and depend on the type, vpn\_type and generation arguments | `string` | `"VpnGw1"` | no |
 | <a name="input_vpn_type"></a> [vpn\_type](#input\_vpn\_type) | The routing type of the Virtual Network Gateway. Valid options are RouteBased or PolicyBased. Defaults to RouteBased | `string` | `"RouteBased"` | no |
-| <a name="input_vpn_with_certificate"></a> [vpn\_with\_certificate](#input\_vpn\_with\_certificate) | Set to false to prevent the module from creating any resources. | `bool` | `false` | no |
+| <a name="input_certification_enable"></a> [vpn\_with\_certificate](#input\_vpn\_with\_certificate) | Set to false to prevent the module from creating any resources. | `bool` | `false` | no |
 
 ## Outputs
 

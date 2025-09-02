@@ -208,7 +208,7 @@ variable "vpn_ad" {
   description = "Set to false to prevent the module from creating any resources."
 }
 
-variable "vpn_with_certificate" {
+variable "certification_enable" {
   type        = bool
   default     = false
   description = "Set to false to prevent the module from creating any resources."
@@ -261,7 +261,7 @@ variable "metric_enabled" {
   description = "Whether metric diagnonsis should be enable in diagnostic settings for flexible Mysql."
 }
 
-variable "log_category_vgw" {
+variable "log_category_vpngw" {
   type        = list(string)
   default     = ["GatewayDiagnosticLog"]
   description = "Categories of logs to be recorded in diagnostic setting for pip_gw."
@@ -270,7 +270,7 @@ variable "log_category_vgw" {
 variable "log_category_pip" {
   type        = list(string)
   default     = ["DDoSProtectionNotifications"]
-  description = "Categories of logs to be recorded in diagnostic setting for vgw."
+  description = "Categories of logs to be recorded in diagnostic setting for vpngw."
 }
 
 variable "ip_configuration_name" {

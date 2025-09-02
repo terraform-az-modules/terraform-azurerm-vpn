@@ -33,7 +33,7 @@ resource "azurerm_public_ip" "pip_gw" {
 ##-----------------------------------------------------------------------------
 resource "azurerm_virtual_network_gateway" "vpngw" {
   count               = var.enable && (var.vpn_ad || var.sts_vpn) ? 1 : 0
-  name                = var.resource_position_prefix ? format("%s-vgw", local.name) : format("vgw-%s", local.name)
+  name                = var.resource_position_prefix ? format("%s-vpngw", local.name) : format("vpngw-%s", local.name)
   location            = var.location
   resource_group_name = var.resource_group_name
   type                = var.gateway_type
@@ -82,8 +82,8 @@ resource "azurerm_virtual_network_gateway" "vpngw" {
 ## Following resource will deploy virtual network gateway with certificate.
 ##-----------------------------------------------------------------------------
 resource "azurerm_virtual_network_gateway" "vpngw2" {
-  count               = var.enable && var.vpn_with_certificate ? 1 : 0
-  name                = var.resource_position_prefix ? format("%s-vgw", local.name) : format("vgw-%s", local.name)
+  count               = var.enable && var.certification_enable ? 1 : 0
+  name                = var.resource_position_prefix ? format("%s-vpngw", local.name) : format("vpngw-%s", local.name)
   location            = var.location
   resource_group_name = var.resource_group_name
   type                = var.gateway_type
@@ -184,7 +184,7 @@ resource "azurerm_virtual_network_gateway_connection" "az-hub-onprem" {
 ##-----------------------------------------------------------------------------
 resource "azurerm_monitor_diagnostic_setting" "main" {
   count                          = var.enable && var.diagnostic_setting_enable ? 1 : 0
-  name                           = var.resource_position_prefix ? format("vgw-diagnostic-log-%s", local.name) : format("%s-vgw-diagnostic-log", local.name)
+  name                           = var.resource_position_prefix ? format("vpngw-diagnostic-log-%s", local.name) : format("%s-vpngw-diagnostic-log", local.name)
   target_resource_id             = var.vpn_ad || var.sts_vpn ? azurerm_virtual_network_gateway.vpngw[0].id : azurerm_virtual_network_gateway.vpngw2[0].id
   storage_account_id             = var.storage_account_id
   eventhub_name                  = var.eventhub_name
@@ -193,7 +193,7 @@ resource "azurerm_monitor_diagnostic_setting" "main" {
   log_analytics_destination_type = var.log_analytics_destination_type
 
   dynamic "enabled_log" {
-    for_each = var.log_category_vgw
+    for_each = var.log_category_vpngw
     content {
       category = enabled_log.value
     }

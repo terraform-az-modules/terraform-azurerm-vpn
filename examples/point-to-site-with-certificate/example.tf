@@ -86,13 +86,13 @@ module "log-analytics" {
 ## Following module will deploy point to site vpn with ssl certificate in azure infratsructure.
 ##-----------------------------------------------------------------------------
 module "vpn" {
-  source               = "../../"
-  depends_on           = [module.vnet]
-  name                 = local.name
-  environment          = local.environment
-  vpn_with_certificate = true
-  resource_group_name  = module.resource_group.resource_group_name
-  subnet_id            = module.subnet.subnet_ids["GatewaySubnet"]
+  source      = "../../"
+  depends_on  = [module.vnet]
+  name        = local.name
+  environment = local.environment
+  # certification_enable = true
+  resource_group_name = module.resource_group.resource_group_name
+  subnet_id           = module.subnet.subnet_ids["GatewaySubnet"]
   #### enable diagnostic setting
   diagnostic_setting_enable  = true
   log_analytics_workspace_id = module.log-analytics.workspace_id

@@ -6,7 +6,6 @@ locals {
   name        = "app"
   environment = "test"
   location    = "canadacentral"
-
 }
 
 ##-----------------------------------------------------------------------------
