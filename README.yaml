@@ -47,7 +47,7 @@ description: |-
 # How to use this project
 usage: |-
   Here are some examples of how you can use this module in your inventory structure:
-  ### Default vnet-peering
+  ### VPN
   ```hcl
     #  vpn with azure ad
     module "vpn" {
@@ -117,7 +117,7 @@ usage: |-
     module "vpn" {
     source                      = "clouddrove/vpn/azure"
     version                     = "1.0.0"
-    name                        = "site-to-site"
+    name                        = "s2s-test-vpngw"
     environment                 = "test"
     label_order                 = ["name", "environment"]
     sts_vpn                     = true
