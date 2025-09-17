@@ -76,7 +76,6 @@ resource "azurerm_virtual_network_gateway" "vpngw" {
   tags = module.labels.tags
 }
 
-
 ##-----------------------------------------------------------------------------
 ## Virtual Network Gateway
 ## Following resource will deploy virtual network gateway with certificate.

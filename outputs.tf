@@ -2,13 +2,8 @@
 ## Outputs
 ##-----------------------------------------------------------------------------
 output "vpn_gw_id" {
-  value       = try(azurerm_virtual_network_gateway.vpngw[0].id, null)
-  description = "The ID of the Virtual Network Gateway."
-}
-
-output "vpn_gw_id_certificate" {
-  value       = try(azurerm_virtual_network_gateway.vpngw2[0].id, null)
-  description = "The ID of the Virtual Network Gateway."
+  value       = var.certification_enable ? try(azurerm_virtual_network_gateway.vpngw2[0].id, null) : try(azurerm_virtual_network_gateway.vpngw[0].id, null)
+  description = "The ID of the active Virtual Network Gateway."
 }
 
 output "local_network_gw_id" {

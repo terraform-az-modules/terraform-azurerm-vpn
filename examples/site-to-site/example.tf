@@ -67,19 +67,15 @@ module "subnet" {
 ## Log Analytics module call.
 ##-----------------------------------------------------------------------------
 module "log-analytics" {
-  source                           = "clouddrove/log-analytics/azure"
-  version                          = "2.0.0"
-  name                             = local.name
-  environment                      = local.environment
-  create_log_analytics_workspace   = true
-  log_analytics_workspace_sku      = "PerGB2018"
-  retention_in_days                = 90
-  daily_quota_gb                   = "-1"
-  internet_ingestion_enabled       = true
-  internet_query_enabled           = true
-  resource_group_name              = module.resource_group.resource_group_name
-  log_analytics_workspace_location = module.resource_group.resource_group_location
-  log_analytics_workspace_id       = module.log-analytics.workspace_id
+  source                      = "terraform-az-modules/log-analytics/azure"
+  version                     = "1.0.0"
+  name                        = local.name
+  environment                 = local.environment
+  label_order                 = ["name", "environment", "location"]
+  log_analytics_workspace_sku = "PerGB2018"
+  resource_group_name         = module.resource_group.resource_group_name
+  location                    = module.resource_group.resource_group_location
+  log_analytics_workspace_id  = module.log-analytics.workspace_id
 }
 
 ##-----------------------------------------------------------------------------
