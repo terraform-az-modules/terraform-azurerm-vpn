@@ -130,7 +130,7 @@ This repository is part of the **terraform-az-modules** organization and provide
 | <a name="output_local_network_gw_connection_id"></a> [local\_network\_gw\_connection\_id](#output\_local\_network\_gw\_connection\_id) | The ID of the Virtual Network Gateway Connection. |
 | <a name="output_local_network_gw_id"></a> [local\_network\_gw\_id](#output\_local\_network\_gw\_id) | The ID of the Local Network Gateway. |
 | <a name="output_vpn_gw_id"></a> [vpn\_gw\_id](#output\_vpn\_gw\_id) | The ID of the Virtual Network Gateway. |
-| <a name="output_vpn_gw_id_certificate"></a> [vpn\_gw\_id\_certificate](#output\_vpn\_gw\_id\_certificate) | The ID of the Virtual Network Gateway. |
+
 
 
 ## Module Dependencies

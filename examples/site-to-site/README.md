@@ -50,7 +50,6 @@ No input variables are defined in this example.
 | Name                                 | Description                                   |
 |---------------------------------------|-----------------------------------------------|
 | local_network_gw_connection_id        | The ID of the Virtual Network Gateway Connection. |
-| local_network_gw_id                   | The ID of the Local Network Gateway.          |
 | vpn_gw_id                             | The ID of the Virtual Network Gateway.        |
 
 <!-- END_TF_DOCS -->
