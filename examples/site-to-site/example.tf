@@ -13,8 +13,8 @@ locals {
 ## Resource group in which all resources will be deployed.
 ##-----------------------------------------------------------------------------
 module "resource_group" {
-  source      = "terraform-az-modules/resource-group/azure"
-  version     = "1.0.0"
+  source      = "terraform-az-modules/resource-group/azurerm"
+  version     = "1.0.3"
   name        = local.name
   environment = local.environment
   label_order = ["name", "environment", "location"]
@@ -26,8 +26,8 @@ module "resource_group" {
 ## Virtual Network in which vpn subnet(Gateway Subnet) will be created.
 ##-----------------------------------------------------------------------------
 module "vnet" {
-  source              = "terraform-az-modules/vnet/azure"
-  version             = "1.0.0"
+  source              = "terraform-az-modules/vnet/azurerm"
+  version             = "1.0.3"
   name                = local.name
   environment         = local.environment
   resource_group_name = module.resource_group.resource_group_name
@@ -40,8 +40,8 @@ module "vnet" {
 ## Name specific subnet for vpn will be created.
 ##-----------------------------------------------------------------------------
 module "subnet" {
-  source               = "terraform-az-modules/subnet/azure"
-  version              = "1.0.0"
+  source               = "terraform-az-modules/subnet/azurerm"
+  version              = "1.0.1"
   environment          = local.environment
   resource_group_name  = module.resource_group.resource_group_name
   location             = module.resource_group.resource_group_location
@@ -67,8 +67,8 @@ module "subnet" {
 ## Log Analytics module call.
 ##-----------------------------------------------------------------------------
 module "log-analytics" {
-  source                      = "terraform-az-modules/log-analytics/azure"
-  version                     = "1.0.0"
+  source                      = "terraform-az-modules/log-analytics/azurerm"
+  version                     = "1.0.2"
   name                        = local.name
   environment                 = local.environment
   label_order                 = ["name", "environment", "location"]

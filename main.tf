@@ -2,8 +2,8 @@
 ## Resource Group, VNet, Subnet selection & Random Resources
 ##-----------------------------------------------------------------------------
 module "labels" {
-  source          = "terraform-az-modules/tags/azure"
-  version         = "1.0.0"
+  source          = "terraform-az-modules/tags/azurerm"
+  version         = "1.0.2"
   name            = var.name
   location        = var.location
   environment     = var.environment
