@@ -16,3 +16,9 @@ jobs:
     secrets: inherit
     with:
       working_directory: './examples/point-to-site-with-certificate/'
+
+# Seperate Job for TFlint workflow call
+   tf-lint:
+    uses: clouddrove/github-shared-workflows/.github/workflows/tf-lint.yml@master
+    secrets:
+      GITHUB: ${{ secrets.GITHUB }}
