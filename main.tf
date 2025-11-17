@@ -54,7 +54,7 @@ resource "azurerm_virtual_network_gateway" "vpngw" {
     for_each = var.enable_active_active ? [true] : []
     content {
       name                          = var.aa_ip_configuration_name
-      public_ip_address_id          = azurerm_public_ip.pip_gw.id
+      public_ip_address_id          = azurerm_public_ip.pip_gw[0].id
       private_ip_address_allocation = "Dynamic"
       subnet_id                     = var.subnet_id
     }

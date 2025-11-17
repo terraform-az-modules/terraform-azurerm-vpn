@@ -16,6 +16,12 @@ jobs:
     secrets: inherit
     with:
       working_directory: './examples/point-to-site-with-certificate/'
+  
+   point-to-site-with-ad-example:
+    uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@master
+    secrets: inherit
+    with:
+      working_directory: './examples/point-to-site-with-ad/'
 
 # Seperate Job for TFlint workflow call
    tf-lint:

@@ -205,19 +205,19 @@ variable "sku" {
 variable "vpn_ad" {
   type        = bool
   default     = false
-  description = "Set to false to prevent the module from creating any resources."
+  description = "Set to false to prevent the module from creating vpn ad resources."
 }
 
 variable "certification_enable" {
   type        = bool
   default     = false
-  description = "Set to false to prevent the module from creating any resources."
+  description = "Set to false to prevent the module from creating certificate resources."
 }
 
 variable "sts_vpn" {
   type        = bool
   default     = false
-  description = "Set to false to prevent the module from creating any resources."
+  description = "Set to false to prevent the module from creating sts vpn resources."
 }
 
 #### enable diagnostic setting
@@ -258,7 +258,7 @@ variable "eventhub_authorization_rule_id" {
 variable "metric_enabled" {
   type        = bool
   default     = true
-  description = "Whether metric diagnonsis should be enable in diagnostic settings for flexible Mysql."
+  description = "Whether metric diagnonsis should be enable in diagnostic settings for vpn module."
 }
 
 variable "log_category_vpngw" {
