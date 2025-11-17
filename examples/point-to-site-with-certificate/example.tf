@@ -1,0 +1,121 @@
+provider "azurerm" {
+  features {}
+}
+
+locals {
+  name        = "app"
+  environment = "test"
+  location    = "canadacentral"
+}
+
+##-----------------------------------------------------------------------------
+## Resource Group module call
+## Resource group in which all resources will be deployed.
+##-----------------------------------------------------------------------------
+module "resource_group" {
+  source      = "terraform-az-modules/resource-group/azurerm"
+  version     = "1.0.3"
+  name        = local.name
+  environment = local.environment
+  label_order = ["name", "environment", "location"]
+  location    = local.location
+}
+
+##-----------------------------------------------------------------------------
+## Virtual Network module call.
+## Virtual Network in which vpn subnet(Gateway Subnet) will be created.
+##-----------------------------------------------------------------------------
+module "vnet" {
+  source              = "terraform-az-modules/vnet/azurerm"
+  version             = "1.0.3"
+  name                = local.name
+  environment         = local.environment
+  resource_group_name = module.resource_group.resource_group_name
+  location            = module.resource_group.resource_group_location
+  address_spaces      = ["10.0.0.0/16"]
+}
+
+##-----------------------------------------------------------------------------
+## Subnet module call.
+## Name specific subnet for vpn will be created.
+##-----------------------------------------------------------------------------
+module "subnet" {
+  source               = "terraform-az-modules/subnet/azurerm"
+  version              = "1.0.1"
+  environment          = local.environment
+  resource_group_name  = module.resource_group.resource_group_name
+  location             = module.resource_group.resource_group_location
+  virtual_network_name = module.vnet.vnet_name
+  subnets = [{
+    name            = "GatewaySubnet"
+    subnet_prefixes = ["10.0.1.0/24"]
+    route_table     = "rt-test"
+  }]
+
+  enable_route_table = true
+  route_tables = [
+    {
+      name           = "rt-test"
+      address_prefix = "0.0.0.0/0"
+      next_hop_type  = "Internet"
+    }
+  ]
+}
+
+##-----------------------------------------------------------------------------
+## Log Analytics module call.
+##-----------------------------------------------------------------------------
+module "log-analytics" {
+  source                      = "terraform-az-modules/log-analytics/azurerm"
+  version                     = "1.0.2"
+  name                        = local.name
+  environment                 = local.environment
+  location                    = module.resource_group.resource_group_location
+  label_order                 = ["name", "environment", "location"]
+  log_analytics_workspace_sku = "PerGB2018"
+  retention_in_days           = 90
+  daily_quota_gb              = "-1"
+  internet_ingestion_enabled  = true
+  internet_query_enabled      = true
+  resource_group_name         = module.resource_group.resource_group_name
+  log_analytics_workspace_id  = module.log-analytics.workspace_id
+}
+
+##-----------------------------------------------------------------------------
+## VPN module call.
+## Following module will deploy point to site vpn with ssl certificate in azure infratsructure.
+##-----------------------------------------------------------------------------
+module "vpn" {
+  source               = "../../"
+  depends_on           = [module.vnet]
+  name                 = local.name
+  environment          = local.environment
+  certification_enable = true
+  resource_group_name  = module.resource_group.resource_group_name
+  subnet_id            = module.subnet.subnet_ids["GatewaySubnet"]
+  #### enable diagnostic setting
+  diagnostic_setting_enable  = true
+  log_analytics_workspace_id = module.log-analytics.workspace_id
+  vpn_client_configuration_c = {
+    address_space        = "172.16.201.0/24"
+    vpn_client_protocols = ["OpenVPN", "IkeV2"]
+    certificate          = <<EOF
+MIIC5jCCAc6gAwIBAgIIUeUhLYf6UNwwDQYJKoZIhvcNAQELBQAwETEPMA0GA1UE
+AxMGVlBOIENBMB4XDTIyMTExMTE0MzA1NFoXDTI1MTExMDE0MzA1NFowETEPMA0G
+A1UEAxMGVlBOIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6bxr
+s1kwbRztA7mH79EoIlyZsmAhdIXV8ehbzNIank1ByOqtBpQK1Xvde1z6rjL1hzCn
+XD6xjW+xfF+yQ/zMyc6udrK2OvtuFmAsBYL5Bbb+Nf7U6Rp9IWZA6f/HO+XLft6q
+sC0UD1wEK6LSn/1u+fCfT3UCMCjpskAtE3ossZCuhUjJ8jGNUb07Z84dQEQf0s3n
+13V0kqNfpaxAhlWUVWrvKWlEGigoTqk6NcTNAzUEGR1b4Rt8qNzIwk8DhODfiOwT
+ILsB3XWyA/IOv2eL3Eqx/lkykIBSEJALPE7j6igyTMoSPHtQA7NWrgYeWgiWh1AQ
+VJpuY1vAIm3gfMAEoQIDAQABo0IwQDAPBgNVHRMBAf8EBTADAQH/MA4GA1UdDwEB
+/wQEAwIBBjAdBgNVHQ4EFgQUiEbr34wufRJ6+1Fh5am89bxRCuswDQYJKoZIhvcN
+AQELBQADggEBABHs7e6X2uLpUPkfv0r8TH3MnskPEGObcqGDS8WWH0FO7hsbSMeZ
+bTxJue6WTUvwrxYrmfqRZU/K+TtDregsa+GAYsl0wbl82nu2gBivpARLXYenfmwc
+Zgul+ZwQPw7FB9rLugW7qKMhGUxYYnywTyfZI1EjP6ZAjYn7xB9G7zOGpkVCErPn
+LIO1Knhk7J2XIXs6wCw1OcLJfXhjEEbnYZaHYA3LCTot9LM+3ecloILUo7rQgooB
+4/YOgmo7Q3Qv0ahFvsEI/ZqSop6NpLlzIQ/T3hC/6m4aG/1u+yaac4E9ygZNg184
+Mb0BNzEPxRFt+L8A72gd/nTcxGrxEcQlqEc=
+EOF
+  }
+}

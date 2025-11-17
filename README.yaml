@@ -1,23 +1,22 @@
 ---
-#
-# This is the canonical configuration for the `README.md`
-# Run `make readme` to rebuild the `README.md`
-#
 
 # Name of this project
-name : Terraform Azure Module Template
+name: Terraform AZURE VPN
 
 # License of this project
 license: "APACHE"
 
 # Canonical GitHub repo
-github_repo: terraform-az-modules/terraform-module-template
+github_repo: clouddrove/terraform-azure-vpn
 
 # Badges to display
 badges:
   - name: "Terraform"
-    image: "https://img.shields.io/badge/Terraform-v0.13-green"
+    image: "https://img.shields.io/badge/Terraform-v1.1.7-green"
     url: "https://www.terraform.io"
+  - name: "tfsec"
+    image: "https://github.com/terraform-az-modules/terraform-azure-vpn/actions/workflows/tfsec.yml/badge.svg"
+    url: "https://github.com/terraform-az-modules/terraform-azure-vpn/actions/workflows/tfsec.yml"
   - name: "Licence"
     image: "https://img.shields.io/badge/License-APACHE-blue.svg"
     url: "LICENSE.md"
@@ -29,21 +28,25 @@ badges:
 prerequesties:
   - name: Terraform
     url: https://learn.hashicorp.com/terraform/getting-started/install.html
-    version: ">= 1.6.6"
+    version: ">= 1.0.0"
 
 providers:
   - name: azure
     url: https://azure.microsoft.com/
-    version: ">= 3.116.0"
+    version: ">= 3.0.0"
+
+module_dependencies:
+  - name: Labels Module
+    url: https://github.com/clouddrove/terraform-azure-labels
+    description: Provides resource tagging.
 
 #  description of this project
 description: |-
-  Terraform Azure Module Template to create new modules using this as baseline
+  Terraform module to create vpn resource on AZURE.
 
-# How to use this project
 # How to use this project
 usage: |-
   Here are some examples of how you can use this module in your inventory structure:
+  ### VPN
   ```hcl
-    locals {}
-    ```
+   ```
