@@ -233,6 +233,7 @@ variable "diagnostic_setting_enable" {
 }
 
 variable "log_analytics_workspace_id" {
+  description = "Specifies the ID of the Log Analytics Workspace to be used for monitoring and diagnostics."
   type    = string
   default = null
 }
