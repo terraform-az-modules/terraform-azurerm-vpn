@@ -228,9 +228,9 @@ variable "log_analytics_destination_type" {
 }
 
 variable "diagnostic_setting_enable" {
-  description = "Enables or disables the diagnostic setting for Azure resources. Set to `true` to enable diagnostics, or `false` to disable them."
-  type    = bool
-  default = false
+  description = "Flag to enable/disable Diagnostic Setting"
+  type        = bool
+  default     = false
 }
 
 variable "log_analytics_workspace_id" {
