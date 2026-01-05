@@ -25,6 +25,7 @@ resource "azurerm_public_ip" "pip_gw" {
   allocation_method    = var.public_ip_allocation_method
   sku                  = var.public_ip_sku
   ddos_protection_mode = "VirtualNetworkInherited"
+  zones                = var.public_ip_zones
   tags                 = module.labels.tags
 }
 

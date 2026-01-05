@@ -102,6 +102,8 @@ module "vpn" {
     aad_audience         = "41b23e61-6c1e-4545-b367-cd054e0ed4b4"
     aad_issuer           = "https://sts.windows.net/bcffb719XXXXXXXXXXXX7ebfb2f7bdd/"
   }
+  sku             = "VpnGw1AZ"
+  public_ip_zones = ["1"]
   #### enable diagnostic setting
   diagnostic_setting_enable  = false
   log_analytics_workspace_id = module.log-analytics.workspace_id

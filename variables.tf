@@ -290,3 +290,9 @@ variable "root_certificate_name" {
   default     = "point-to-site-root-certifciate"
   description = "Name for the root certificate in VPN client configuration"
 }
+
+variable "public_ip_zones" {
+  description = "Zones for the VPN public IP. Required for *AZ gateway SKUs."
+  type        = list(string)
+  default     = [] # no zones by default (non-AZ SKUs)
+}
