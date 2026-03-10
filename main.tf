@@ -41,7 +41,7 @@ resource "azurerm_virtual_network_gateway" "vpngw" {
   vpn_type            = var.vpn_type
   sku                 = var.sku
   active_active       = var.vpn_gw_sku != "Basic" ? var.enable_active_active : false
-  enable_bgp          = var.vpn_gw_sku != "Basic" ? var.enable_bgp : false
+  bgp_enabled         = var.vpn_gw_sku != "Basic" ? var.enable_bgp : false
   generation          = var.vpn_gw_generation
 
   ip_configuration {
@@ -90,7 +90,7 @@ resource "azurerm_virtual_network_gateway" "vpngw2" {
   vpn_type            = var.vpn_type
   sku                 = var.sku
   active_active       = var.vpn_gw_sku != "Basic" ? var.enable_active_active : false
-  enable_bgp          = var.vpn_gw_sku != "Basic" ? var.enable_bgp : false
+  bgp_enabled         = var.vpn_gw_sku != "Basic" ? var.enable_bgp : false
   generation          = var.vpn_gw_generation
 
   ip_configuration {
