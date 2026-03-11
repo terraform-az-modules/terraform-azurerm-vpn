@@ -34,7 +34,7 @@ resource "azurerm_public_ip" "pip_gw" {
 ##-----------------------------------------------------------------------------
 resource "azurerm_virtual_network_gateway" "vpngw" {
   count               = var.enable && (var.vpn_ad || var.sts_vpn) ? 1 : 0
-  name                = var.resource_position_prefix ? format("%s-vpngw", local.name) : format("vpngw-%s", local.name)
+  name                = var.resource_position_prefix ? format("vpngw-%s", local.name) : format("%s-vpngw", local.name)
   location            = var.location
   resource_group_name = var.resource_group_name
   type                = var.gateway_type
@@ -83,7 +83,7 @@ resource "azurerm_virtual_network_gateway" "vpngw" {
 ##-----------------------------------------------------------------------------
 resource "azurerm_virtual_network_gateway" "vpngw2" {
   count               = var.enable && var.certification_enable ? 1 : 0
-  name                = var.resource_position_prefix ? format("%s-vpngw", local.name) : format("vpngw-%s", local.name)
+  name                = var.resource_position_prefix ? format("vpngw-%s", local.name) : format("%s-vpngw", local.name)
   location            = var.location
   resource_group_name = var.resource_group_name
   type                = var.gateway_type
