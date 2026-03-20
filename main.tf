@@ -60,7 +60,7 @@ resource "azurerm_virtual_network_gateway" "vpngw" {
       subnet_id                     = var.subnet_id
     }
   }
-  # aad vpn users check if vpn supports user group ,and individual users ,how to assign user acces to each 
+  # aad vpn users check if vpn supports user group ,and individual users ,how to assign user acces to each
   dynamic "vpn_client_configuration" {
     for_each = var.vpn_client_configuration != null ? [var.vpn_client_configuration] : []
 
