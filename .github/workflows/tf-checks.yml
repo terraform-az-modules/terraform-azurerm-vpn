@@ -18,7 +18,7 @@ jobs:
     with:
       working_directory: './examples/point-to-site-with-certificate/'
       provider: none
-  
+
    point-to-site-with-ad-example:
     uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@master
     secrets: inherit
