@@ -1,26 +1,26 @@
 name: tf-checks
+
 on:
-  push:
-    branches: [ master ]
   pull_request:
   workflow_dispatch:
+
 jobs:
    site-to-site-example:
-    uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@master
+    uses: clouddrove/github-shared-workflows/.github/workflows/stf-checks.yml@v2
     secrets: inherit
     with:
       working_directory: './examples/site-to-site/'
       provider: none
 
    point-to-site-with-certificate-example:
-    uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@master
+    uses: clouddrove/github-shared-workflows/.github/workflows/stf-checks.yml@v2
     secrets: inherit
     with:
       working_directory: './examples/point-to-site-with-certificate/'
       provider: none
 
    point-to-site-with-ad-example:
-    uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@master
+    uses: clouddrove/github-shared-workflows/.github/workflows/stf-checks.yml@v2
     secrets: inherit
     with:
       working_directory: './examples/point-to-site-with-ad/'
@@ -28,6 +28,6 @@ jobs:
 
 # Seperate Job for TFlint workflow call
    tf-lint:
-    uses: clouddrove/github-shared-workflows/.github/workflows/tf-lint.yml@master
+    uses: clouddrove/github-shared-workflows/.github/workflows/tf-lint.yml@v2
     secrets:
       GITHUB: ${{ secrets.GITHUB }}
