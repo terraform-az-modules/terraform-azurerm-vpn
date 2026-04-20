@@ -1,52 +1,48 @@
----
+name: Terraform Azure VPN
 
-# Name of this project
-name: Terraform AZURE VPN
+intro: |-
+  With our comprehensive DevOps toolkit - streamline operations, automate workflows, enhance collaboration and deploy with confidence.
 
-# License of this project
+badges_text: "Latest Release | tfsec | License | Changelog"
+
+about: |-
+  Terraform module to create and manage VPN on Azure.
+
 license: "APACHE"
 
-# Canonical GitHub repo
-github_repo: clouddrove/terraform-azure-vpn
+github_repo: terraform-az-modules/terraform-azurerm-vpn
 
-# Badges to display
 badges:
   - name: "Terraform"
-    image: "https://img.shields.io/badge/Terraform-v1.1.7-green"
+    image: "https://img.shields.io/badge/Terraform-v1.6-green"
     url: "https://www.terraform.io"
-  - name: "tfsec"
-    image: "https://github.com/terraform-az-modules/terraform-azure-vpn/actions/workflows/tfsec.yml/badge.svg"
-    url: "https://github.com/terraform-az-modules/terraform-azure-vpn/actions/workflows/tfsec.yml"
+
   - name: "Licence"
     image: "https://img.shields.io/badge/License-APACHE-blue.svg"
     url: "LICENSE.md"
-  - name: "Changelog"
-    image: "https://img.shields.io/badge/Changelog-blue"
-    url: "CHANGELOG.md"
 
-# Prerequesties to display
-prerequesties:
+prerequisites:
   - name: Terraform
     url: https://learn.hashicorp.com/terraform/getting-started/install.html
-    version: ">= 1.0.0"
+    version: ">= 1.6.6"
 
 providers:
-  - name: azure
-    url: https://azure.microsoft.com/
-    version: ">= 3.0.0"
+  - name: azurerm
+    url: https://registry.terraform.io/providers/hashicorp/azurerm/latest
+    version: ">= 4.0"
 
-module_dependencies:
-  - name: Labels Module
-    url: https://github.com/clouddrove/terraform-azure-labels
-    description: Provides resource tagging.
-
-#  description of this project
 description: |-
-  Terraform module to create vpn resource on AZURE.
+  Terraform module to create and manage VPN on Azure.
 
-# How to use this project
 usage: |-
-  Here are some examples of how you can use this module in your inventory structure:
-  ### VPN
+  ### Example
+
   ```hcl
-   ```
+  module "vpn" {
+    source = "./"
+
+    name                = "vpn-demo"
+    resource_group_name = "rg-demo"
+    location            = "Central India"
+  }
+  ```
